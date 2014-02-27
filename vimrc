@@ -1,14 +1,4 @@
-" An example for a vimrc file.
-"
-" Maintainer:	Bram Moolenaar <Bram@vim.org>
-" Last change:	2011 Apr 15
-"
-" To use it, copy it to
-"     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
-"  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
-
+" enable pathogen package mgmt
 execute pathogen#infect()
 call pathogen#helptags()
 
@@ -21,6 +11,11 @@ endif
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" Color scheme
+syntax enable
+set background=light
+colorscheme solarized
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
@@ -32,10 +27,36 @@ endif
 set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
 
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
+set incsearch		" do incremental searching
+set ignorecase " ignore case when searching
+set smartcase	 " ignore case if search string is all lower case, case-sensitve otherwise
+set hlsearch
+
+set relativenumber     " use relative line numbers
+set number             " except for the current line - absolute number there
+set laststatus=2
+set showcmd
+
+set tabstop=2           " 2 spaces for a tab
+set shiftwidth=2        " 2 spaces for autoindenting
+set softtabstop=2       " when <BS>, pretend a tab is removed even if spaces
+set expandtab           " expand tabs to spaces (overloadable by file type)
+
+set foldenable           " enable code folding
+set autoindent           " turns it on
+set smartindent          " does the right thing (mostly) in programs
+set autoread                      " automatically update file when editted outside of vim
+
+set pastetoggle=<F2> " Paste mode to prevent autoindentation of pasted lines
+set clipboard=unnamed   " yank and paste with the system clipboard
+
+" Centralize backups, swapfiles and undo history (need directories obvs
+set backupdir=~/.vim/backups
+set directory=~/.vim/swaps
+if exists("&undodir")
+     set undodir=~/.vim/undo
+endif
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -47,13 +68,6 @@ inoremap <C-U> <C-G>u<C-U>
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
   set mouse=a
-endif
-
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
 endif
 
 " Only do this part when compiled with support for autocommands.
@@ -83,10 +97,6 @@ if has("autocmd")
     \ endif
 
   augroup END
-
-else
-
-  set autoindent		" always set autoindenting on
 
 endif " has("autocmd")
 
